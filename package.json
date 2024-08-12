@@ -1,5 +1,4 @@
 {
-  "name": "react-native-todo",
   "version": "1.0.0",
   "main": "expo/AppEntry.js",
   "scripts": {
@@ -17,7 +16,7 @@
   "devDependencies": {
     "@babel/core": "^7.20.0",
     "@types/react": "~18.2.45",
-    "typescript": "^5.3.3"
+    "typescript": "~5.3.3"
   },
   "private": true
 }
