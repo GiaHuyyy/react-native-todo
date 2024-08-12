@@ -1,7 +1,8 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import Header from "./layout/Header";
 
-import { TodoAction, TodoList } from "../components";
+import TodoAction from "./TodoAction";
+import TodoList from "./TodoList";
 
 function TodoApp() {
   return (

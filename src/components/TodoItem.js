@@ -1,8 +1,21 @@
+import { useState } from "react";
 import { Text, View, Pressable, StyleSheet } from "react-native";
-function TodoItem({title}) {
+import { CheckBox } from "react-native-elements";
+function TodoItem({ title, check }) {
+  const [checked, setChecked] = useState(check);
+
   return (
     <View style={styles.wrapper}>
-      <Text>{title}</Text>
+      <CheckBox checked={checked} onPress={() => setChecked(!checked)} />
+      <Text
+        style={{
+          textDecorationLine: checked === false ? "overline" : "line-through",
+          color: checked === false ? "black" : "#688c8a",
+          flex: 1,
+        }}
+      >
+        {title}
+      </Text>
       <View style={[styles.wrapper, styles.groupButton]}>
         <Pressable style={[styles.button, styles.buttonEdit]}>
           <Text style={styles.text}>Edit</Text>
@@ -18,10 +31,8 @@ function TodoItem({title}) {
 const styles = StyleSheet.create({
   wrapper: {
     flexDirection: "row",
-    justifyContent: "space-between",
     alignItems: "center",
 
-    paddingLeft: 20,
     marginTop: 1,
     borderWidth: 1,
     borderColor: "#688c8a",
@@ -32,13 +43,11 @@ const styles = StyleSheet.create({
   },
   button: {
     alignItems: "center",
-    justifyContent: "center",
     paddingVertical: 12,
     width: 80,
   },
   text: {
     fontSize: 16,
-    lineHeight: 21,
     fontWeight: "bold",
     letterSpacing: 0.25,
     color: "white",

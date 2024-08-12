@@ -1,17 +1,34 @@
-import { View, Text, StyleSheet } from "react-native";
-import { TodoItem } from "../components";
+import { View, StyleSheet } from "react-native";
+import TodoItem from './TodoItem';
 function TodoList() {
+  const todos = [
+    {
+      id: 1,
+      title: "Setup development environment",
+      completed: true,
+    },
+    {
+      id: 2,
+      title: "Develop website and add content",
+      completed: false,
+    },
+    {
+      id: 3,
+      title: "Deploy to live server",
+      completed: false,
+    },
+  ];
+
   return (
     <View style={styles.wrapper}>
-        <TodoItem title="react"/>
-        <TodoItem title="reactjs"/>
-        <TodoItem title="react-native"/>                     
+      {todos.map((todo) => (
+        <TodoItem key={todo.id} title={todo.title} check={todo.completed} />
+      ))}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  wrapper: {
-  },
+  wrapper: {},
 });
 export default TodoList;

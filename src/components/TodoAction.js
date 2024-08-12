@@ -29,6 +29,8 @@ const styles = StyleSheet.create({
   wrapper: {
     flexDirection: "row",
     marginTop: 1,
+    borderWidth: 1,
+    borderColor: "#688c8a",
   },
   input: {
     paddingLeft: 20,
@@ -39,7 +41,6 @@ const styles = StyleSheet.create({
   },
   button: {
     alignItems: "center",
-    justifyContent: "center",
     paddingVertical: 12,
     width: 80,
   },
