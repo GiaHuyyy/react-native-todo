@@ -1,5 +1,5 @@
 import { View, StyleSheet, Alert } from "react-native";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 
 // import "react-native-get-random-values";
 // import { v4 as uuidv4 } from "uuid";
@@ -29,7 +29,7 @@ function TodoApp() {
   ]);
 
   // Function to handle checkbox change
-  const handleChangeCheckBox = (id: number) => {
+  const handleChangeCheckBox = useCallback((id: number) => {
     setTodos((prevTodos) => {
       return prevTodos.map((todo) => {
         if (todo.id === id) {
@@ -41,10 +41,10 @@ function TodoApp() {
         return todo;
       });
     });
-  };
+  }, []);
 
   // Handle add todo
-  const handleAddTodo = (title: string) => {
+  const handleAddTodo = useCallback((title: string) => {
     if (title) {
       setTodos((prevTodos) => {
         return [
@@ -57,19 +57,19 @@ function TodoApp() {
         ];
       });
     }
-  };
+  }, []);
 
   // Handle edit todo
   const [titleEdit, setTitleEdit] = useState<string>("");
   const [idEdit, setIdEdit] = useState<number | null>(null);
 
-  const handleGetTodo = (id: number, title: string) => {
+  const handleGetTodo = useCallback((id: number, title: string) => {
     setTitleEdit(title);
     setIdEdit(id);
-  };
+  }, []);
 
   // Handle save edit todo
-  const handleEditTodo = (id: number, title: string) => {
+  const handleEditTodo = useCallback((id: number, title: string) => {
     setTodos((prevTodos) => {
       return prevTodos.map((todo) => {
         if (todo.id === id) {
@@ -82,16 +82,16 @@ function TodoApp() {
         return todo;
       });
     });
-  };
+  }, []);
 
   // Handle cancel edit todo
-  const handleCancelEditTodo = () => {
+  const handleCancelEditTodo = useCallback(() => {
     setTitleEdit("");
     setIdEdit(null);
-  };
+  }, []);
 
   // Handle delete todo
-  const handleDeleteTodo = (id: number) => {
+  const handleDeleteTodo = useCallback((id: number) => {
     Alert.alert("Delete Todo ?", "Are you sure?", [
       {
         text: "Cancel",
@@ -105,10 +105,10 @@ function TodoApp() {
           }),
       },
     ]);
-  };
+  }, []);
 
   // Handle clear all todos
-  const handleClearAllTodos = () => {
+  const handleClearAllTodos = useCallback(() => {
     Alert.alert("Clear all todo ?", "Are you sure?", [
       {
         text: "Cancel",
@@ -122,7 +122,7 @@ function TodoApp() {
         },
       },
     ]);
-  };
+  }, []);
 
   return (
     <View style={styles.app}>
