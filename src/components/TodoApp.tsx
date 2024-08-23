@@ -1,4 +1,4 @@
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Alert } from "react-native";
 import { useState } from "react";
 
 // import "react-native-get-random-values";
@@ -43,6 +43,22 @@ function TodoApp() {
     });
   };
 
+  // Handle add todo
+  const handleAddTodo = (title: string) => {
+    if (title) {
+      setTodos((prevTodos) => {
+        return [
+          ...prevTodos,
+          {
+            id: todos.length + 1,
+            title: title,
+            completed: false,
+          },
+        ];
+      });
+    }
+  };
+
   // Handle edit todo
   const [titleEdit, setTitleEdit] = useState<string>("");
   const [idEdit, setIdEdit] = useState<number | null>(null);
@@ -76,31 +92,36 @@ function TodoApp() {
 
   // Handle delete todo
   const handleDeleteTodo = (id: number) => {
-    setTodos((prevTodos) => {
-      return prevTodos.filter((todo) => todo.id !== id);
-    });
-  };
-
-  // Handle add todo
-  const handleAddTodo = (title: string) => {
-    if (title) {
-      setTodos((prevTodos) => {
-        return [
-          ...prevTodos,
-          {
-            id: todos.length + 1,
-            title: title,
-            completed: false,
-          },
-        ];
-      });
-    }
+    Alert.alert("Delete Todo ?", "Are you sure?", [
+      {
+        text: "Cancel",
+        style: "cancel",
+      },
+      {
+        text: "OK",
+        onPress: () =>
+          setTodos((prevTodos) => {
+            return prevTodos.filter((todo) => todo.id !== id);
+          }),
+      },
+    ]);
   };
 
   // Handle clear all todos
   const handleClearAllTodos = () => {
-    setTodos([]);
-    setTitleEdit("");
+    Alert.alert("Clear all todo ?", "Are you sure?", [
+      {
+        text: "Cancel",
+        style: "cancel",
+      },
+      {
+        text: "OK",
+        onPress: () => {
+          setTodos([]);
+          setTitleEdit("");
+        },
+      },
+    ]);
   };
 
   return (
@@ -128,7 +149,7 @@ function TodoApp() {
 
 const styles = StyleSheet.create({
   app: {
-    marginTop: 20,
+    marginTop: 40,
   },
 });
 export default TodoApp;

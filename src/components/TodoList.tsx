@@ -1,4 +1,4 @@
-import { View, StyleSheet } from "react-native";
+import { StyleSheet, FlatList } from "react-native";
 import TodoItem from "./TodoItem";
 
 interface Todo {
@@ -17,22 +17,30 @@ interface TodoListProps {
 
 function TodoList({ todos, handleChangeCheckBox, handleGetTodo, handleDeleteTodo, idEdit }: TodoListProps) {
   return (
-    <View style={styles.wrapper}>
-      {todos.map((todo) => (
+    <FlatList
+      style={styles.wrapper}
+      data={todos}
+      keyExtractor={item => item.id.toString()}
+      renderItem={({ item }) => (
         <TodoItem
-          key={todo.id}
-          todo={todo}
+          key={item.id}
+          todo={item}
           handleChangeCheckBox={handleChangeCheckBox}
           handleGetTodo={handleGetTodo}
           handleDeleteTodo={handleDeleteTodo}
           idEdit={idEdit}
         />
-      ))}
-    </View>
+      )}
+      showsVerticalScrollIndicator={true}
+    />
   );
 }
 
 const styles = StyleSheet.create({
-  wrapper: {},
+  wrapper: {
+    // flex: 1,
+    // width: "100%",
+    marginBottom: 180,
+  },
 });
 export default TodoList;

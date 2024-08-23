@@ -1,6 +1,8 @@
-import { useCallback, useEffect, useState } from "react";
+// import { useCallback, useEffect, useState } from "react";
 import { Text, View, Pressable, StyleSheet } from "react-native";
 import { CheckBox } from "react-native-elements";
+
+import Octicons from "@expo/vector-icons/Octicons";
 
 interface Todo {
   id: number;
@@ -58,7 +60,9 @@ function TodoItem({
 
         {/* Button delete */}
         <Pressable style={[styles.button, styles.buttonDelete]} onPress={() => handleDeleteTodo(id)}>
-          <Text style={styles.text}>X</Text>
+          <Text style={styles.text}>
+            <Octicons name="trash" size={24} color="white" />
+          </Text>
         </Pressable>
       </View>
     </View>
