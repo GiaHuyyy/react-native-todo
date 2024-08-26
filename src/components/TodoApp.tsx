@@ -1,8 +1,10 @@
 import { View, StyleSheet, Alert } from "react-native";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 
 // import "react-native-get-random-values";
 // import { v4 as uuidv4 } from "uuid";
+
+import axios from "axios";
 
 import Header from "./layout/Header";
 
@@ -10,23 +12,7 @@ import TodoAction from "./TodoAction";
 import TodoList from "./TodoList";
 
 function TodoApp() {
-  const [todos, setTodos] = useState([
-    {
-      id: 1,
-      title: "Setup development environment",
-      completed: true,
-    },
-    {
-      id: 2,
-      title: "Develop website and add content",
-      completed: false,
-    },
-    {
-      id: 3,
-      title: "Deploy to live server",
-      completed: false,
-    },
-  ]);
+  const [todos, setTodos] = useState([] as any[]);
 
   // Function to handle checkbox change
   const handleChangeCheckBox = useCallback((id: number) => {
@@ -46,15 +32,15 @@ function TodoApp() {
   // Handle add todo
   const handleAddTodo = useCallback((title: string) => {
     if (title) {
-      setTodos((prevTodos) => {
-        return [
-          ...prevTodos,
-          {
-            id: todos.length + 1,
-            title: title,
-            completed: false,
-          },
-        ];
+      const todoData = {
+        title: title,
+        completed: false,
+      };
+      axios.post("https://jsonplaceholder.typicode.com/todos", todoData).then((response) => {
+        setTodos((prevTodos) => {
+          console.log(response.data);
+          return [...prevTodos, response.data];
+        });
       });
     }
   }, []);
@@ -70,17 +56,20 @@ function TodoApp() {
 
   // Handle save edit todo
   const handleEditTodo = useCallback((id: number, title: string) => {
-    setTodos((prevTodos) => {
-      return prevTodos.map((todo) => {
-        if (todo.id === id) {
-          return {
-            ...todo,
-            title: title,
-          };
-        }
-        setIdEdit(null);
-        return todo;
+    axios.put(`https://jsonplaceholder.typicode.com/todos/${id}`, { title: title }).then(() => {
+      setTodos((prevTodos) => {
+        return prevTodos.map((todo) => {
+          if (todo.id === id) {
+            return {
+              ...todo,
+              title: title,
+            };
+          }
+          return todo;
+        });
       });
+      setTitleEdit("");
+      setIdEdit(null);
     });
   }, []);
 
@@ -100,8 +89,10 @@ function TodoApp() {
       {
         text: "OK",
         onPress: () =>
-          setTodos((prevTodos) => {
-            return prevTodos.filter((todo) => todo.id !== id);
+          axios.delete(`https://jsonplaceholder.typicode.com/todos/${id}`).then(() => {
+            setTodos((prevTodos) => {
+              return prevTodos.filter((todo) => todo.id !== id);
+            });
           }),
       },
     ]);
@@ -117,11 +108,28 @@ function TodoApp() {
       {
         text: "OK",
         onPress: () => {
-          setTodos([]);
-          setTitleEdit("");
+          axios.delete("https://jsonplaceholder.typicode.com/todos").then(() => {
+            setTodos([]);
+            setTitleEdit("");
+          });
         },
       },
     ]);
+  }, []);
+
+  useEffect(() => {
+    const config = {
+      params: {
+        _limit: 5,
+      },
+    };
+    //tạo GET request để lấy danh sách todos
+    axios.get("https://jsonplaceholder.typicode.com/todos", config).then((response) => {
+      //lấy danh sách todos từ response.data
+      const todos = response.data;
+      //setTodos với danh sách todos vừa lấy được
+      setTodos(todos);
+    });
   }, []);
 
   return (
