@@ -1,49 +1,51 @@
-import { View, StyleSheet, Alert } from "react-native";
-import { useState, useCallback, useEffect } from "react";
+import { StyleSheet, Alert, SafeAreaView } from "react-native";
 
 // import "react-native-get-random-values";
 // import { v4 as uuidv4 } from "uuid";
 
-import axios from "axios";
+import { useCallback, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState, AppDispatch } from "../store";
+import {
+  fetchTodos,
+  addTodoAsync,
+  editTodoAsync,
+  deleteTodoAsync,
+  toggleTodoAsync,
+  clearTodosAsync,
+} from "../store/todoSlice";
 
 import Header from "./layout/Header";
-
 import TodoAction from "./TodoAction";
 import TodoList from "./TodoList";
+import Footer from "./layout/Footer";
 
 function TodoApp() {
-  const [todos, setTodos] = useState([] as any[]);
+  const dispatch = useDispatch<AppDispatch>();
+  const todos = useSelector((state: RootState) => state.todos.todos);
+  const themeColor = useSelector((state: RootState) => state.theme.color);
+
+  // Fetch todos
+  useEffect(() => {
+    dispatch(fetchTodos());
+  }, [dispatch]);
 
   // Function to handle checkbox change
-  const handleChangeCheckBox = useCallback((id: number) => {
-    setTodos((prevTodos) => {
-      return prevTodos.map((todo) => {
-        if (todo.id === id) {
-          return {
-            ...todo,
-            completed: !todo.completed,
-          };
-        }
-        return todo;
-      });
-    });
-  }, []);
+  const handleChangeCheckBox = useCallback(
+    (id: number) => {
+      dispatch(toggleTodoAsync(id));
+      alert("huy oi");
+    },
+    [dispatch]
+  );
 
   // Handle add todo
-  const handleAddTodo = useCallback((title: string) => {
-    if (title) {
-      const todoData = {
-        title: title,
-        completed: false,
-      };
-      axios.post("https://jsonplaceholder.typicode.com/todos", todoData).then((response) => {
-        setTodos((prevTodos) => {
-          console.log(response.data);
-          return [...prevTodos, response.data];
-        });
-      });
-    }
-  }, []);
+  const handleAddTodo = useCallback(
+    (title: string) => {
+      dispatch(addTodoAsync({ id: Math.random(), title, completed: false }));
+    },
+    [dispatch]
+  );
 
   // Handle edit todo
   const [titleEdit, setTitleEdit] = useState<string>("");
@@ -52,26 +54,15 @@ function TodoApp() {
   const handleGetTodo = useCallback((id: number, title: string) => {
     setTitleEdit(title);
     setIdEdit(id);
-  }, []);
+  }, [titleEdit, idEdit]);
 
   // Handle save edit todo
-  const handleEditTodo = useCallback((id: number, title: string) => {
-    axios.put(`https://jsonplaceholder.typicode.com/todos/${id}`, { title: title }).then(() => {
-      setTodos((prevTodos) => {
-        return prevTodos.map((todo) => {
-          if (todo.id === id) {
-            return {
-              ...todo,
-              title: title,
-            };
-          }
-          return todo;
-        });
-      });
-      setTitleEdit("");
-      setIdEdit(null);
-    });
-  }, []);
+  const handleEditTodo = useCallback(
+    (id: number, title: string) => {
+      dispatch(editTodoAsync({ id, title }));
+    },
+    [dispatch]
+  );
 
   // Handle cancel edit todo
   const handleCancelEditTodo = useCallback(() => {
@@ -80,23 +71,21 @@ function TodoApp() {
   }, []);
 
   // Handle delete todo
-  const handleDeleteTodo = useCallback((id: number) => {
-    Alert.alert("Delete Todo ?", "Are you sure?", [
-      {
-        text: "Cancel",
-        style: "cancel",
-      },
-      {
-        text: "OK",
-        onPress: () =>
-          axios.delete(`https://jsonplaceholder.typicode.com/todos/${id}`).then(() => {
-            setTodos((prevTodos) => {
-              return prevTodos.filter((todo) => todo.id !== id);
-            });
-          }),
-      },
-    ]);
-  }, []);
+  const handleDeleteTodo = useCallback(
+    (id: number) => {
+      Alert.alert("Delete Todo ?", "Are you sure?", [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        {
+          text: "OK",
+          onPress: () => dispatch(deleteTodoAsync(id)),
+        },
+      ]);
+    },
+    [dispatch]
+  );
 
   // Handle clear all todos
   const handleClearAllTodos = useCallback(() => {
@@ -108,33 +97,16 @@ function TodoApp() {
       {
         text: "OK",
         onPress: () => {
-          axios.delete("https://jsonplaceholder.typicode.com/todos").then(() => {
-            setTodos([]);
-            setTitleEdit("");
-          });
+          dispatch(clearTodosAsync());
+          setTitleEdit("");
         },
       },
     ]);
-  }, []);
-
-  useEffect(() => {
-    const config = {
-      params: {
-        _limit: 5,
-      },
-    };
-    //tạo GET request để lấy danh sách todos
-    axios.get("https://jsonplaceholder.typicode.com/todos", config).then((response) => {
-      //lấy danh sách todos từ response.data
-      const todos = response.data;
-      //setTodos với danh sách todos vừa lấy được
-      setTodos(todos);
-    });
-  }, []);
+  }, [dispatch]);
 
   return (
-    <View style={styles.app}>
-      <Header />
+    <SafeAreaView style={[styles.app]}>
+      <Header themeColor={themeColor}/>
       <TodoAction
         todos={todos}
         handleAddTodo={handleAddTodo}
@@ -151,13 +123,14 @@ function TodoApp() {
         handleDeleteTodo={handleDeleteTodo}
         idEdit={idEdit}
       />
-    </View>
+      <Footer themeColor={themeColor}/>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   app: {
-    marginTop: 40,
+    flex: 1,
   },
 });
 export default TodoApp;

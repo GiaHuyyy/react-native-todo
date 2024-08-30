@@ -8,6 +8,7 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^2.2.7",
     "axios": "^1.7.5",
     "expo": "~51.0.31",
     "expo-status-bar": "~1.12.1",
@@ -15,6 +16,9 @@
     "react-native": "0.74.5",
     "react-native-elements": "^3.4.3",
     "react-native-get-random-values": "^1.11.0",
+    "react-redux": "^9.1.2",
+    "redux": "^5.0.1",
+    "redux-thunk": "^3.1.0",
     "uuid": "^10.0.0"
   },
   "devDependencies": {

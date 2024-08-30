@@ -20,10 +20,9 @@ function TodoList({ todos, handleChangeCheckBox, handleGetTodo, handleDeleteTodo
     <FlatList
       style={styles.wrapper}
       data={todos}
-      keyExtractor={item => item.id.toString()}
+      keyExtractor={(item, index) => `${item.id}-${index}`}
       renderItem={({ item }) => (
         <TodoItem
-          key={item.id}
           todo={item}
           handleChangeCheckBox={handleChangeCheckBox}
           handleGetTodo={handleGetTodo}
@@ -37,10 +36,6 @@ function TodoList({ todos, handleChangeCheckBox, handleGetTodo, handleDeleteTodo
 }
 
 const styles = StyleSheet.create({
-  wrapper: {
-    // flex: 1,
-    // width: "100%",
-    marginBottom: 180,
-  },
+  wrapper: {},
 });
 export default TodoList;
