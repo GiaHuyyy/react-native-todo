@@ -1,0 +1,1 @@
+// Các custom hooks cho ứng dụng, để quản lý logic chung.

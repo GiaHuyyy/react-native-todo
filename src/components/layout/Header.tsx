@@ -1,6 +1,4 @@
 import { View, Text, StyleSheet } from "react-native";
-import { useSelector } from "react-redux";
-import { RootState } from "../../store";
 
 interface HeaderProps {
   themeColor: string;
@@ -8,7 +6,7 @@ interface HeaderProps {
 function Header({ themeColor }: HeaderProps) {
   return (
     <View style={[styles.header, { backgroundColor: themeColor }]}>
-      <Text style={styles.text}>Simple Todo App</Text>
+      <Text className="font-bold text-[red] text-[23px]">Simple Todo App</Text>
     </View>
   );
 }
@@ -22,7 +20,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   text: {
-    color: "#fff",
     fontSize: 23,
     fontWeight: "bold",
   },

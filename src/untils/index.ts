@@ -1,0 +1,1 @@
+//  Chứa các hàm tiện ích hoặc các helper function.
