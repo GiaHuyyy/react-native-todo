@@ -1,4 +1,5 @@
-import { StyleSheet, Alert, SafeAreaView } from "react-native";
+import React from "react";
+import { StyleSheet, Alert, SafeAreaView, Button } from "react-native";
 
 // import "react-native-get-random-values";
 // import { v4 as uuidv4 } from "uuid";
@@ -6,6 +7,11 @@ import { StyleSheet, Alert, SafeAreaView } from "react-native";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "../store";
+
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../types";
+
 import {
   fetchTodos,
   addTodoAsync,
@@ -34,7 +40,6 @@ function TodoApp() {
   const handleChangeCheckBox = useCallback(
     (id: number) => {
       dispatch(toggleTodoAsync(id));
-      alert("huy oi");
     },
     [dispatch]
   );
@@ -51,10 +56,13 @@ function TodoApp() {
   const [titleEdit, setTitleEdit] = useState<string>("");
   const [idEdit, setIdEdit] = useState<number | null>(null);
 
-  const handleGetTodo = useCallback((id: number, title: string) => {
-    setTitleEdit(title);
-    setIdEdit(id);
-  }, [titleEdit, idEdit]);
+  const handleGetTodo = useCallback(
+    (id: number, title: string) => {
+      setTitleEdit(title);
+      setIdEdit(id);
+    },
+    [titleEdit, idEdit]
+  );
 
   // Handle save edit todo
   const handleEditTodo = useCallback(
@@ -104,9 +112,11 @@ function TodoApp() {
     ]);
   }, [dispatch]);
 
+  type TodoScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, "Todo">;
+  const navigation = useNavigation<TodoScreenNavigationProp>();
   return (
     <SafeAreaView style={[styles.app]}>
-      <Header themeColor={themeColor}/>
+      <Header themeColor={themeColor} />
       <TodoAction
         todos={todos}
         handleAddTodo={handleAddTodo}
@@ -123,7 +133,8 @@ function TodoApp() {
         handleDeleteTodo={handleDeleteTodo}
         idEdit={idEdit}
       />
-      <Footer themeColor={themeColor}/>
+      <Button title="Go Back" onPress={() => navigation.navigate("Hero")} />
+      <Footer themeColor={themeColor} />
     </SafeAreaView>
   );
 }

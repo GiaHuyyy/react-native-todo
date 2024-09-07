@@ -1,13 +1,20 @@
-// Todo App
-import { Provider } from "react-redux";
-import TodoApp from "./src/components";
-import store from "./src/store";
+import React, { useEffect } from "react";
 import { View } from "react-native";
-import { Text } from "react-native";
+import { Provider } from "react-redux";
 
-// Font
 import { useFonts } from "expo-font";
-import { useEffect, useState } from "react";
+import { setCustomText, setCustomTextInput } from "react-native-global-props";
+
+import store from "./src/store";
+import TodoApp from "./src/components";
+
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import Screen from "./src/screens";
+
+import { RootStackParamList } from "./src/types";
+
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -15,14 +22,37 @@ export default function App() {
     "Poppins-Bold": require("./assets/fonts/Poppins-Bold.ttf"),
   });
 
+  useEffect(() => {
+    if (fontsLoaded) {
+      const customTextProps = {
+        style: {
+          fontFamily: "Poppins",
+        },
+      };
+      setCustomText(customTextProps);
+      setCustomTextInput(customTextProps);
+    }
+  }, [fontsLoaded]);
+
   if (!fontsLoaded) {
-    return null; // Hoặc một component loading
+    return null;
   }
   return (
     <Provider store={store}>
-      <View className="font-poppins flex-1">
-        <TodoApp />
-      </View>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Hero">
+          <Stack.Screen
+            name="Hero"
+            component={Screen.HomeScreen}
+            options={{ headerShown: false }} // Hide default header
+          />
+          <Stack.Screen
+            name="Todo"
+            component={TodoApp}
+            options={{ headerShown: false }} // Hide default header
+          ></Stack.Screen>
+        </Stack.Navigator>
+      </NavigationContainer>
     </Provider>
   );
 }
