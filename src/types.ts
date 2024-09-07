@@ -1,5 +1,5 @@
 export type RootStackParamList = {
   Hero: undefined;
-  SignIn: undefined;
+  SignUp: undefined;
   Todo: undefined;
 };

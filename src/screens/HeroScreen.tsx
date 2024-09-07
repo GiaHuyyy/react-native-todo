@@ -30,7 +30,7 @@ function HomeScreen() {
         </Text>
         <Image source={Images.logo} className="mt-[242px]" />
         <Button
-          onPress={() => navigation.navigate("SignIn")}
+          onPress={() => navigation.navigate("SignUp")}
           className="mt-[182px]"
           value="Sign Up"
           textColor="#587DFF"

@@ -16,7 +16,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../types";
 import { Pressable } from "react-native";
 
-type SignInScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, "SignIn">;
+type SignInScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, "SignUp">;
 function SignInScreen() {
   const navigation = useNavigation<SignInScreenNavigationProp>();
   return (

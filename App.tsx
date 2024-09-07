@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { View } from "react-native";
 import { Provider } from "react-redux";
 
 import { useFonts } from "expo-font";
@@ -47,8 +46,8 @@ export default function App() {
             options={{ headerShown: false }} // Hide default header
           />
           <Stack.Screen
-            name="SignIn"
-            component={Screen.SignInScreen}
+            name="SignUp"
+            component={Screen.SignUpScreen}
             options={{ headerShown: false }} // Hide default header
           />
           <Stack.Screen
