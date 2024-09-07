@@ -16,8 +16,8 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../types";
 import { Pressable } from "react-native";
 
-type SignInScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, "SignUp">;
-function SignUpScreen() {
+type SignInScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, "SignIn">;
+function SignInScreen() {
   const navigation = useNavigation<SignInScreenNavigationProp>();
   return (
     <KeyboardAvoidingView
@@ -26,7 +26,7 @@ function SignUpScreen() {
       style={{ flex: 1 }}
     >
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-        <View className="h-full items-center">
+        <View className="flex h-full items-center">
           <View className="-mt-[68%] flex h-[488px] w-[488px] justify-center">
             <LinearGradient
               colors={["#FFF", "#67ADFF"]}
@@ -43,29 +43,30 @@ function SignUpScreen() {
               <Image source={Images.logo} className="absolute bottom-20 h-[42px] w-[156px]" />
             </LinearGradient>
           </View>
-          <Text className="my-[37px] text-xl text-[#8AC0FF]">Create Account</Text>
-          <DefaultForm>
+          {/* <Text className="my-[37px] text-xl text-[#8AC0FF]">Create Account</Text> */}
+          <DefaultForm className="mt-[86px]">
             <InputForm placeholder="Username" iconName={Icon.UserNameIcon} />
-            <InputForm placeholder="Email" iconName={Icon.EmailIcon} />
             <InputForm placeholder="Password" iconName={Icon.Secure} showPassword />
-            <InputForm placeholder="Repeat Passwrod" iconName={Icon.Secure} showPassword />
-            <View className="mx-5 flex-row">
-              <CheckBox />
-              <Text className="text-sm text-[#858585]">
-                I agree to the <Text className="text-[#1882FF]">Terms & conditions</Text>
-              </Text>
+            <View className="mx-5 flex-row justify-between">
+              <View className="flex-row">
+                <CheckBox />
+                <Text className="text-sm text-[#858585]">Remeber me</Text>
+              </View>
+              <Pressable>
+                <Text className="text-[#1882FF]">Forgot Password ?</Text>
+              </Pressable>
             </View>
             <Button
               className="mt-[20px]"
               onPress={() => navigation.navigate("Todo")}
-              value="Sign Up"
-            ></Button>
+              value="Sign In"
+            />
           </DefaultForm>
           <QuestionForm
             className="mb-11 mt-auto"
-            question="Already have an account ?"
-            value="Sign In from here"
-            onPress={() => navigation.navigate("SignIn")}
+            question="Don’t you have account ?"
+            value="Sign Up from Free"
+            onPress={() => navigation.navigate("SignUp")}
           />
         </View>
       </ScrollView>
@@ -73,4 +74,4 @@ function SignUpScreen() {
   );
 }
 
-export default SignUpScreen;
+export default SignInScreen;

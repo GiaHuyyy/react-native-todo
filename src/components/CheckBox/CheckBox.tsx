@@ -5,7 +5,7 @@ function CheckBox() {
   const [isChecked, setIsChecked] = useState(false);
 
   return (
-    <View className="ml-5 mr-3 flex-row items-center">
+    <View className="mr-3 flex-row items-center">
       <Pressable
         onPress={() => setIsChecked(!isChecked)}
         className={`h-[18px] w-[18px] items-center justify-center rounded-[4px] border-[1px] ${

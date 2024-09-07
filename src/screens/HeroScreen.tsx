@@ -39,7 +39,7 @@ function HomeScreen() {
         <Pressable>
           <Text className="mt-[42px] text-base text-[#606060]">Already a member ?</Text>
         </Pressable>
-        <Pressable>
+        <Pressable onPress={() => navigation.navigate("SignIn")}>
           <Text className="mt-[31px] text-base text-white">Sign in</Text>
         </Pressable>
       </View>
