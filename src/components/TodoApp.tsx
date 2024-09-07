@@ -41,7 +41,7 @@ function TodoApp() {
     (id: number) => {
       dispatch(toggleTodoAsync(id));
     },
-    [dispatch]
+    [dispatch],
   );
 
   // Handle add todo
@@ -49,7 +49,7 @@ function TodoApp() {
     (title: string) => {
       dispatch(addTodoAsync({ id: Math.random(), title, completed: false }));
     },
-    [dispatch]
+    [dispatch],
   );
 
   // Handle edit todo
@@ -61,7 +61,7 @@ function TodoApp() {
       setTitleEdit(title);
       setIdEdit(id);
     },
-    [titleEdit, idEdit]
+    [titleEdit, idEdit],
   );
 
   // Handle save edit todo
@@ -69,7 +69,7 @@ function TodoApp() {
     (id: number, title: string) => {
       dispatch(editTodoAsync({ id, title }));
     },
-    [dispatch]
+    [dispatch],
   );
 
   // Handle cancel edit todo
@@ -92,7 +92,7 @@ function TodoApp() {
         },
       ]);
     },
-    [dispatch]
+    [dispatch],
   );
 
   // Handle clear all todos
@@ -133,7 +133,7 @@ function TodoApp() {
         handleDeleteTodo={handleDeleteTodo}
         idEdit={idEdit}
       />
-      <Button title="Go Back" onPress={() => navigation.navigate("Hero")} />
+      <Button title="Go Back" onPress={() => navigation.goBack()} />
       <Footer themeColor={themeColor} />
     </SafeAreaView>
   );

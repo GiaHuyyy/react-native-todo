@@ -47,6 +47,11 @@ export default function App() {
             options={{ headerShown: false }} // Hide default header
           />
           <Stack.Screen
+            name="SignIn"
+            component={Screen.SignInScreen}
+            options={{ headerShown: false }} // Hide default header
+          />
+          <Stack.Screen
             name="Todo"
             component={TodoApp}
             options={{ headerShown: false }} // Hide default header
