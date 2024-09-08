@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react";
-import { Pressable, Text, View } from "react-native";
+import { View } from "react-native";
 
 interface DefaultFormProps {
   className?: string;

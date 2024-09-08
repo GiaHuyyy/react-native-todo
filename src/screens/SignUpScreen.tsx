@@ -1,24 +1,51 @@
-import React from "react";
-import { Image, Text, View, KeyboardAvoidingView, ScrollView, Platform } from "react-native";
+import React, { useCallback } from "react";
+import { Text, View, KeyboardAvoidingView, ScrollView, Platform } from "react-native";
+import Animated, {
+  Easing,
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+} from "react-native-reanimated";
+import { useFocusEffect } from "@react-navigation/native";
+
 import DefaultForm from "../components/DefaultForm";
 import InputForm from "../components/InputForm";
-import Images from "../../assets/images";
 import Icon from "../../assets/icons";
-
+import Ellipse from "../components/Ellipse";
 import Button from "../components/Button";
 import CheckBox from "../components/CheckBox";
 import QuestionForm from "../components/QuestionForm";
-import { LinearGradient } from "expo-linear-gradient";
 
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-
 import { RootStackParamList } from "../types";
-import { Pressable } from "react-native";
 
 type SignInScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, "SignUp">;
+
 function SignUpScreen() {
   const navigation = useNavigation<SignInScreenNavigationProp>();
+  const position = useSharedValue(300); // Giá trị ban đầu của vị trí Y (bên dưới màn hình)
+
+  // Hàm khôi phục và khởi động hoạt ảnh
+  const startAnimation = useCallback(() => {
+    position.value = withTiming(0, { duration: 2000, easing: Easing.out(Easing.exp) });
+  }, [position]);
+
+  // Chạy hoạt ảnh khi trang được lấy nét
+  useFocusEffect(
+    useCallback(() => {
+      position.value = 300; // Đặt lại giá trị ban đầu
+      startAnimation();
+    }, [startAnimation, position]),
+  );
+
+  // Tạo kiểu hoạt ảnh dựa vào vị trí hiện tại
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{ translateY: position.value }],
+    };
+  });
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -27,28 +54,19 @@ function SignUpScreen() {
     >
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
         <View className="h-full items-center">
-          <View className="-mt-[68%] flex h-[488px] w-[488px] justify-center">
-            <LinearGradient
-              colors={["#FFF", "#67ADFF"]}
-              className="relative flex-1 items-center rounded-full text-center"
-              start={{ x: 0.5, y: 0 }}
-              end={{ x: 0.5, y: 1 }}
-            >
-              <Pressable
-                onPress={() => navigation.goBack()}
-                className="absolute bottom-36 left-16 p-2 px-3"
-              >
-                <Image source={Icon.ArrowBackIcon} />
-              </Pressable>
-              <Image source={Images.logo} className="absolute bottom-20 h-[42px] w-[156px]" />
-            </LinearGradient>
-          </View>
+          {/* Ellipse */}
+          <Animated.View style={[animatedStyle]}>
+            <Ellipse onPress={() => navigation.goBack()} />
+          </Animated.View>
+
           <Text className="my-[37px] text-xl text-[#8AC0FF]">Create Account</Text>
+
+          {/* DefaultForm */}
           <DefaultForm>
             <InputForm placeholder="Username" iconName={Icon.UserNameIcon} />
             <InputForm placeholder="Email" iconName={Icon.EmailIcon} />
             <InputForm placeholder="Password" iconName={Icon.Secure} showPassword />
-            <InputForm placeholder="Repeat Passwrod" iconName={Icon.Secure} showPassword />
+            <InputForm placeholder="Repeat Password" iconName={Icon.Secure} showPassword />
             <View className="mx-5 flex-row">
               <CheckBox />
               <Text className="text-sm text-[#858585]">
@@ -57,13 +75,13 @@ function SignUpScreen() {
             </View>
             <Button
               className="mt-[20px]"
-              onPress={() => navigation.navigate("Todo")}
+              onPress={() => navigation.navigate("Loading")}
               value="Sign Up"
-            ></Button>
+            />
           </DefaultForm>
           <QuestionForm
             className="mb-11 mt-auto"
-            question="Already have an account ?"
+            question="Already have an account?"
             value="Sign In from here"
             onPress={() => navigation.navigate("SignIn")}
           />

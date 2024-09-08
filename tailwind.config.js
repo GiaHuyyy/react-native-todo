@@ -1,12 +1,12 @@
-/** @type {import('nativewind').NativeWindConfig} */
+// tailwind.config.js
 module.exports = {
-  content: ["./App.{js,jsx,ts,tsx}", "./src/**/*.{js,jsx,ts,tsx}"],
+  content: [
+    "./App.js",
+    "./src/**/*.{js,jsx,ts,tsx}",
+    "./node_modules/nativewind/**/*.js", // Đảm bảo bao gồm thư viện nativewind
+  ],
   theme: {
-    extend: {
-      // fontFamily: {
-      //   poppins: ["Poppins", "sans-serif"], // Tên của font tùy chỉnh
-      // },
-    },
+    extend: {},
   },
   plugins: [],
 };

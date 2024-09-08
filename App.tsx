@@ -12,6 +12,12 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Screen from "./src/screens";
 
 import { RootStackParamList } from "./src/types";
+import { NativeWindStyleSheet } from "nativewind";
+
+// Cấu hình NativeWindStyleSheet
+NativeWindStyleSheet.setOutput({
+  default: "native",
+});
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -53,6 +59,11 @@ export default function App() {
           <Stack.Screen
             name="SignIn"
             component={Screen.SignInScreen}
+            options={{ headerShown: false }} // Hide default header
+          />
+          <Stack.Screen
+            name="Loading"
+            component={Screen.LoadingScreen}
             options={{ headerShown: false }} // Hide default header
           />
           <Stack.Screen

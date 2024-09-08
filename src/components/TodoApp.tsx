@@ -133,7 +133,7 @@ function TodoApp() {
         handleDeleteTodo={handleDeleteTodo}
         idEdit={idEdit}
       />
-      <Button title="Go Back" onPress={() => navigation.goBack()} />
+      <Button title="Go Back" onPress={() => navigation.navigate("Hero")} />
       <Footer themeColor={themeColor} />
     </SafeAreaView>
   );

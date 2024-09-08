@@ -2,4 +2,5 @@
 import HomeScreen from "./HeroScreen";
 import SignUpScreen from "./SignUpScreen";
 import SignInScreen from "./SignInScreen";
-export default { HomeScreen, SignUpScreen, SignInScreen };
+import LoadingScreen from "./LoadingScreen";
+export default { HomeScreen, SignUpScreen, SignInScreen, LoadingScreen };

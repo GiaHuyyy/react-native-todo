@@ -1,3 +1,4 @@
+import React from "react";
 import { useEffect, useRef, useState } from "react";
 import { Text, TextInput, View, Pressable, StyleSheet } from "react-native";
 interface Todo {
